@@ -5,9 +5,19 @@
 .text
 
 _start:
+    ldr     r0,=string1
+    mov     r1,#40
+    mov     r2,#0
+    bl      fgets
+
+    ldr     r0,=string2
+    mov     r1,#40
+    mov     r2,#0
+    bl      fgets
+
     ldr     r1, =string1
     ldr     r2, =string2
-    mov     r3, #1          @for comparison mode Put 0 for case sensitive mode, and 1 for case insensitive
+    mov     r3, #1          @for comparison mode Put 0 for case sensitive mode, and 1 for case insensitive 
 
 compare:
     mov     r6,r1
@@ -21,14 +31,14 @@ compare:
     beq      2f
     bl       normalise
     
-2:  cmp      r4, #'\n'
-    cmpeq    r5, #'\n'
+2:  cmp      r4, #'\0'
+    cmpeq    r5, #'\0'
     beq      last
     mov      r0, #-1
-    cmp      r4, #'\n'
+    cmp      r4, #'\0'
     beq      last
     mov      r0, #1
-    cmp      r5, #'\n'
+    cmp      r5, #'\0'
     beq      last
 
     mov      r0,#1
@@ -67,6 +77,6 @@ swi SWI_Exit
 
 
 .data
-string1: .ascii "a\n"
-string2: .ascii "A\n"
+string1: .space 40
+string2: .space 40
 .end
