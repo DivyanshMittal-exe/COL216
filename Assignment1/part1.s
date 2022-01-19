@@ -15,11 +15,37 @@ _start:
     mov     r2,#0
     bl      fgets
 
+    ldr     r0,=string3
+    mov     r1,#40
+    mov     r2,#0
+    bl      fgets
+
     ldr     r1, =string1
     ldr     r2, =string2
-    mov     r3, #1          @for comparison mode Put 0 for case sensitive mode, and 1 for case insensitive 
+    ldr     r4, =string3
+    ldrb    r5, [r4,#0]
+    sub     r5, #'0'
+    mov     r3, r5          @for comparison mode Put 0 for case sensitive mode, and 1 for case insensitive 
+    bl      compare
+    cmp     r0,#-1
+    beq     1f
+    cmp     r0,#1
+    beq     2f
+    ldr     r0,=equa
+    b       3f
+1:  
+    ldr     r0,=twol
+    b       3f
+2:  
+    ldr     r0,=onel
+    b       3f
+3:  
+    bl      prints
+    swi     SWI_Exit
+
 
 compare:
+    stmfd	sp!, {r1-r4,lr}
     mov     r6,r1
     mov     r7,r2
 
@@ -71,12 +97,18 @@ normalise:
 last:
     mov     r1,r6
     mov     r2,r7
+    ldmfd	sp!, {r1-r4,pc}
 
 
-swi SWI_Exit
+
+
 
 
 .data
 string1: .space 40
 string2: .space 40
+string3: .space 40
+equa: .asciz   "EQUAL"
+twol: .asciz   "String 2 Larger"
+onel: .asciz   "String 1 Larger"
 .end

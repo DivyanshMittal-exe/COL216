@@ -1,4 +1,4 @@
-    .global fgets
+    .global fgets,prints
 
     .text
 
@@ -29,6 +29,29 @@ fgets:
 	strb	r0, [r3]
 	mov	r0, r2		@ set success result
 	ldmfd	sp!, {r1-r4,pc}
+
+prints:
+	stmfd	sp!, {r0,r1,lr}
+	ldr	r1, =operands
+	str	r0, [r1,#4]
+	bl	strlen
+	str	r0, [r1,#8]
+	mov	r0, #0x0
+	str	r0, [r1]
+	mov	r0, #0x05
+	swi	0x123456
+	ldmfd	sp!, {r0,r1,pc}
+
+
+strlen:
+	stmfd	sp!, {r1-r3,lr}
+	mov	r1, #0
+	mov	r3, r0
+1:	ldrb	r2, [r3], #1
+	cmp	r2, #0
+	bne	1b
+	sub	r0, r3, r0
+	ldmfd	sp!, {r1-r3,pc}
 
 	.data
 operands:
