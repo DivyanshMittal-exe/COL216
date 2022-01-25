@@ -22,12 +22,17 @@ fgets:
 	cmp	r0, #'\n'
     beq 3f
     cmp	r0, #'\r'
-    beq 3f
-    strb	r0, [r3]
+    beq 4f
+    @strb r0, [r3,#-1]
 	b	1b
-3:  mov r0,#'\0'
-	strb	r0, [r3]
-	mov	r0, r2		@ set success result
+
+3:  mov r0,#0
+	b 5f
+4:  mov r0,#'\n'
+	b 5f
+
+5:	strb	r0, [r3,#-1]
+	sub		r0, r3,#1		@ set pointer locn
 	ldmfd	sp!, {r1-r4,pc}
 
 prints:
@@ -52,6 +57,9 @@ strlen:
 	bne	1b
 	sub	r0, r3, r0
 	ldmfd	sp!, {r1-r3,pc}
+
+
+
 
 	.data
 operands:
