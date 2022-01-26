@@ -5,7 +5,8 @@
 .text
 
 merge:
-    stmfd	sp!, {r1-r5,lr}
+    stmfd	sp!, {r2-r5,lr}
+    stmfd	sp!, {r0}
     ldr     r6, = arr_m
 
  1: cmp     r1,r0
@@ -59,10 +60,23 @@ merge:
     b       6b
 
 7:
-    ldr     r0, =arr_m
-    mov     r6,r3
-    ldmfd	sp!, {r1-r5,pc}
+    ldr     r2, =arr_m
+    ldmfd	sp!, {r0}
+    mov     r1,r0
+  
+  
+8:  cmp     r2,r6
+    bgt     9f
+    ldr     r3,[r2]
+    str     r3,[r1]
 
+    add     r1,r1,#4
+    add     r2,r2,#4
+    b       8b
+
+9:
+    sub     r1,r1,#4
+    ldmfd	sp!, {r2-r5,pc}
 
 
 
