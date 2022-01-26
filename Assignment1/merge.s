@@ -15,12 +15,13 @@ merge:
     cmp     r3,r2
     blt     6f
 
-    stmfd   sp!, {r0-r2}
+    stmfd   sp!, {r0-r3}
     ldr     r1,[r0,#0]
     ldr     r2,[r2,#0]
+    mov     r3,r4
     bl      compare
     mov     r7,r0
-    ldmfd   sp!, {r0-r2}
+    ldmfd   sp!, {r0-r3}
 
 
     cmp     r7,#-1
@@ -28,6 +29,12 @@ merge:
 
     cmp     r7,#1
     beq       3f
+
+    cmp     r7,#0
+    cmpeq   r5,#1
+    addeq   r2,r2,#4
+
+
 
 2:
     ldr     r7,[r0]
