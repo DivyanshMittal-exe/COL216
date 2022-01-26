@@ -34,7 +34,7 @@ _start:
     add     r0,r0,#1
     mov     r6,r3
 
-    Cstmfd	sp!, {r0}
+    stmfd	sp!, {r0}
     ldr     r0,=twoi
     bl      prints
     ldmfd	sp!, {r0}

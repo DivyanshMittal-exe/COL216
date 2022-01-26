@@ -30,10 +30,15 @@ merge:
     cmp     r7,#1
     beq       3f
 
-    cmp     r7,#0
+    cmp     r7,#1
     cmpeq   r5,#1
-    addeq   r2,r2,#4
+    beq       10f
 
+10: 
+    ldr   r7,[r0]
+    add   r0,r0,#4
+    add   r2,r2,#4
+    b     4f
 
 
 2:

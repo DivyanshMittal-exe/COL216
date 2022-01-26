@@ -68,14 +68,14 @@ compare:
     beq      2f
     bl       normalise
     
-2:  cmp      r4, #'0'
-    cmpeq    r5, #'0'
+2:  cmp      r4, #0
+    cmpeq    r5, #0
     beq      last
     mov      r0, #-1
-    cmp      r4, #'0'
+    cmp      r4, #0
     beq      last
     mov      r0, #1
-    cmp      r5, #'0'
+    cmp      r5, #0
     beq      last
 
     mov      r0,#1
