@@ -9,6 +9,15 @@ merge:
     stmfd	sp!, {r0}
     ldr     r6, = arr_m
 
+
+    lsl     r1,r1,#2
+    lsl     r3,r3,#2
+
+
+
+    add     r1,r1,r0
+    add     r3,r3,r2
+
  1: cmp     r1,r0
     blt     5f
 
@@ -30,15 +39,11 @@ merge:
     cmp     r7,#1
     beq       3f
 
-    cmp     r7,#1
+    cmp     r7,#0
     cmpeq   r5,#1
     beq       10f
 
-10: 
-    ldr   r7,[r0]
-    add   r0,r0,#4
-    add   r2,r2,#4
-    b     4f
+
 
 
 2:
@@ -50,6 +55,12 @@ merge:
     ldr     r7,[r2]
     add     r2,r2,#4
     b       4f
+
+10: 
+    ldr   r7,[r0]
+    add   r0,r0,#4
+    add   r2,r2,#4
+    b     4f
 
 4:  
     str     r7,[r6]
@@ -88,6 +99,8 @@ merge:
 
 9:
     sub     r1,r1,#4
+    sub     r1,r1,r0
+    lsr     r1,r1,#2
     ldmfd	sp!, {r2-r5,pc}
 
 
